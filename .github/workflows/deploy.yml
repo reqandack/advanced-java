@@ -26,10 +26,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build with VitePress
-        run: pnpm run docs:build
-
-      - name: Generate CNAME
-        run: echo "java.doocs.org" > docs/.vitepress/dist/CNAME
+        run: |
+          export VITE_BASE_URL="/${GITHUB_REPOSITORY#*/}/"
+          export VITE_HOSTNAME="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/"
+          pnpm run docs:build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

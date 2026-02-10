@@ -1,6 +1,10 @@
 import { defineConfig } from "vitepress";
 
+const base = process.env.VITE_BASE_URL || '/';
+const hostname = process.env.VITE_HOSTNAME || 'https://java.doocs.org';
+
 export default defineConfig({
+  base: base,
   title: "advanced-java",
   ignoreDeadLinks: true,
   themeConfig: {
@@ -478,6 +482,12 @@ export default defineConfig({
   ],
   cleanUrls: true,
   sitemap: {
-    hostname: 'https://java.doocs.org'
+    hostname: hostname,
+    transformItems(items) {
+      return items.map((item) => ({
+        ...item,
+        url: item.url.replace(/^\//, "")
+      }));
+    }
   }
 });
